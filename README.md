@@ -12,6 +12,8 @@ I checked first, if data is stationary by applying Dickey-Fuller test, then, bas
 | :---:         |     :---:      |          :---: |:---: |
 | VAR   | testing   | 391.587    | 13.417  |
 
+The testing denotes a MAE of 13.42 and knowing the mean of the stock price 380, the error of prediction is around 3.5% of the current price.
+
 <p align="center">
     <img src="analysis/images/testing.png" width="900" />
 </p> 
