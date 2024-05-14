@@ -12,7 +12,7 @@ from analysis.utils import plot_forecasting
 class StockMarketPriceForecast:
     """Class used to forecast stock price"""
 
-    def __init__(self, model_dir: str = 'model/var_model.pkl', data_dir: pd.DataFrame = 'data/ADANIPORTS.csv'):
+    def __init__(self, model_dir: str = 'model/var_model.pkl', data_dir: str = 'data/ADANIPORTS.csv'):
         """Initialize StockMarketPriceForecast
 
         Args:
