@@ -20,6 +20,10 @@ The testing denotes a MAE of 13.42 and knowing the mean of the stock price 380, 
 
 We can observe that fitted values and original data are biased, this is produced by the lags used to train the model. After that, I checked Durbin-Watson statistic to see if residuals  are around 2, meaning that residuals do not follow correlation between them.
 
+Close  : 1.57
+Turnover : 2.01
+Deliverable Volume : 2.0
+
 I trained again a VAR model with all data available in order to predict the following 90 days. The following graph represents the forecast, which seems fair enough of real stock market price.
 <p align="center">
     <img src="analysis/images/forecasting_90_days.png" width="900" />
