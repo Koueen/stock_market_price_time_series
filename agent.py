@@ -34,27 +34,35 @@ class StockMarketPriceForecast:
             pd.Series: Index DateTime and stock price (float)
         """
         df = self.preprocess()  # This is used to plot to know from which point the forecasting is being predicted
-        df_forecast = self.predict(n_days,df)
-        plot_forecasting(df.Close,  self.model.fittedvalues.Close, df_forecast.Close, f'Forecasting next {n_days} days', True, True, n_days)
+        df_forecast = self.predict(n_days, df)
+        plot_forecasting(
+            df.Close,
+            self.model.fittedvalues.Close,
+            df_forecast.Close,
+            f'Forecasting next {n_days} days',
+            True,
+            True,
+            n_days,
+        )
         return df_forecast.Close
 
     def preprocess(self) -> pd.DataFrame:
         """Preprocess raw csv into proper format
 
         Returns:
-            pd.DataFrame: Composed by year | month | passengers. Their index is a datetime "year-month-day"
+            pd.DataFrame: Composed by ['Close','Turnover','Deliverable Volume']. Their index is a datetime "year-month-day"
         """
         df = pd.read_csv(self.data_dir)
         df['Date'] = pd.to_datetime(df.Date, format='%Y-%m-%d')
         df.set_index('Date', inplace=True)
-        df_roll = df[['Close','Turnover','Deliverable Volume']].rolling(7).mean().dropna()
+        df_roll = df[['Close', 'Turnover', 'Deliverable Volume']].rolling(7).mean().dropna()
         return df_roll
 
     def load_model(self):
         """Load model
 
         Returns:
-            HoltWinters model
+            VAR model
         """
         return pickle.load(open(self.models_dir, 'rb'))
 
@@ -66,14 +74,12 @@ class StockMarketPriceForecast:
 
         Returns:
             Returns:
-            pd.Series: Index DateTime and stock market price (float)
+            pd.DataFrame: Index DateTime and Close, Volume and Turnover features
         """
         date_range = pd.date_range(start='2020-01-1', periods=n_days, freq='D')
-        forecast_input = df.values[-self.lag_order:]
-        forecast = self.model.forecast(y=forecast_input,steps=n_days)
-        df_forecast = pd.DataFrame(forecast, 
-                           columns=df.columns, 
-                           index=date_range)
+        forecast_input = df.values[-self.lag_order :]
+        forecast = self.model.forecast(y=forecast_input, steps=n_days)
+        df_forecast = pd.DataFrame(forecast, columns=df.columns, index=date_range)
         return df_forecast
 
 
